@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: {{ .Values.app.name }}
+    env: {{ .Values.app.env }}
+  name: {{ .Values.app.name }}
+  namespace: {{ default .Values.app.name }}
+spec:
+  serviceName: {{ .Values.app.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  replicas: {{ .Values.app.config.replicas | default 1 }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      {{- include "app.podAntiAffinity" . | indent 2 }}
+      containers:
+      - name: {{ .Values.app.name }}
+        image: {{ .Values.app.image }}
+          {{- include "app.command" . -}}
+          {{- include "app.probes" . -}}
+          {{- include "app.resources" . -}}
+          {{- include "app.envFrom" . -}}
+          {{- include "app.ports" . -}}
+          {{- include "app.volumeMounts" . }}
+      restartPolicy: Always
+      {{- include "app.volumes" . -}}
+    {{- include "app.volumeClaimTemplates" . -}}

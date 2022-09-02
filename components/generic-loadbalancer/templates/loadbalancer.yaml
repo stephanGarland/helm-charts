@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: {{ .Values.name }}
+    env: {{ .Values.env }}
+  name: {{ .Values.name }}
+  namespace: {{ default .Values.name }}
+spec:
+  ports:
+    - port: {{ .Values.loadbalancer.portNumber | default 80 }}
+      targetPort: {{ .Values.loadbalancer.targetPortNumber }}
+  selector:
+    app: {{ .Values.name }}
+  type: LoadBalancer

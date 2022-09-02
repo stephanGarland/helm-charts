@@ -1,0 +1,7 @@
+apiVersion: v2
+name: generic-ingress
+version: 0.1.0
+description: A generic Chart for an Ingress.
+maintainers:
+  - name: Stephan Garland
+    url: https://sgarland.dev

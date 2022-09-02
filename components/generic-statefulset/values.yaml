@@ -1,0 +1,45 @@
+app:
+  name: foobar
+  env: dev
+  kind: StatefulSet
+  image: stephangarland/foo:latest
+
+  config:
+    envFrom: true
+    podAntiAffinity: true
+    probes: true
+    replicas: 1
+
+  networking:
+    ingress:
+      name: foobar.goldspinner.page
+    ports:
+    - containerPort: 8989
+      name: mysvc
+      protocol: TCP
+
+  probes:
+    liveness:
+      type: http
+      path: /healthz
+      port: 32400
+    #readiness:
+    #  type: tcp
+    #  port: 80
+
+  resources:
+    requests:
+      cpu: 2.5
+      memory: "1024 MiB"
+    limits:
+      memory: "2 GiB"
+
+  persistence:
+    config:
+      enable: true
+      storageClassName: "longhorn-retain"
+    nfs:
+      enable: true
+      mountPath: "/tv"
+      serverIP: "192.168.1.202"
+      serverPath: "/export/tv"

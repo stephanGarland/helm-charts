@@ -1,0 +1,7 @@
+apiVersion: v2
+name: generic-statefulset
+version: 0.1.0
+description: A generic Chart for a Stateful Set.
+maintainers:
+  - name: Stephan Garland
+    url: https://sgarland.dev
