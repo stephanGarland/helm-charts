@@ -1,5 +1,4 @@
-apiVersion: apps/v1
-kind: StatefulSet
+{{ include "app.header" . }}
 metadata:
   labels:
     name: {{ .Values.app.name }}
@@ -11,16 +10,17 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
-  replicas: {{ .Values.app.config.replicas | default 1 }}
+  {{- include "app.replicas" . -}}
   template:
     metadata:
       labels:
         app: {{ .Values.app.name }}
     spec:
-      {{- include "app.podAntiAffinity" . | indent 2 }}
+      {{- include "app.podAntiAffinity" . }}
       containers:
       - name: {{ .Values.app.name }}
         image: {{ .Values.app.image }}
+        imagePullPolicy: {{ .Values.app.imagePullPolicy }}
           {{- include "app.command" . -}}
           {{- include "app.probes" . -}}
           {{- include "app.resources" . -}}

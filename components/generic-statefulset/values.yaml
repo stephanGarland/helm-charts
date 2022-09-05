@@ -2,44 +2,59 @@ app:
   name: foobar
   env: dev
   kind: StatefulSet
-  image: stephangarland/foo:latest
+  image: docker.io/foo:latest
+  imagePullPolicy: IfNotPresent
 
   config:
+    # Enables envFrom.configMapRef
     envFrom: true
+    # If app.kind: deployment, templates a hostname pod anti-affinity
     podAntiAffinity: true
+    # Enables liveness and/or readiness probes
     probes: true
+    # If app.kind: deployment, sets replica count
     replicas: 1
 
   networking:
     ingress:
-      name: foobar.goldspinner.page
+      enable: true
+      # FQDN for the ingress; also used for httpGet probes
+      name:
+    # Ports for the container, if any
     ports:
-    - containerPort: 8989
-      name: mysvc
-      protocol: TCP
+      - containerPort: 8080
+        name: mysvc
+        protocol: TCP
 
+  # Only templated if app.config.probes: true
   probes:
     liveness:
       type: http
       path: /healthz
-      port: 32400
+      port: 8080
+    # Uncomment if desired
     #readiness:
     #  type: tcp
     #  port: 80
 
+  # CPU limits are not included by design, but can be added
   resources:
     requests:
-      cpu: 2.5
-      memory: "1024 MiB"
+      cpu:
+      memory:
     limits:
-      memory: "2 GiB"
+      memory:
 
   persistence:
+    # Templates a VolumeClaimTemplate for config, used for StatefulSet
     config:
       enable: true
       storageClassName: "longhorn-retain"
+    # Templates an NFS mount
     nfs:
       enable: true
-      mountPath: "/tv"
-      serverIP: "192.168.1.202"
-      serverPath: "/export/tv"
+      # The absolute path to the container's NFS mount, e.g. /foo
+      mountPath:
+      serverIP:
+      # The absolute path to the server's NFS share, e.g. /export/foo
+      serverPath:
