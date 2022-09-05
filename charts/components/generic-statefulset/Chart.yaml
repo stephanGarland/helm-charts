@@ -8,4 +8,5 @@ maintainers:
 dependencies:
   - name: generic-pod-mgr
     version: 0.1.0
-    repository: https://github.com/stephanGarland/helm-charts/components
+    repository: file://../generic-pod-mgr
+    #repository: https://github.com/stephanGarland/helm-charts/components
