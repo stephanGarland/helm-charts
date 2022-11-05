@@ -1,0 +1,6 @@
+dependencies:
+- name: generic-statefulset
+  repository: file://../../components/generic-statefulset
+  version: 0.1.0
+digest: sha256:6e6890a7ca4cb6816245f12c65a1cb438d072700122a35a575c68a7106bae5b4
+generated: "2022-09-27T20:21:36.675888-04:00"

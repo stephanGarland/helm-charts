@@ -1,0 +1,9 @@
+apiVersion: v2
+name: sonarr
+version: 0.1.0
+description: |
+  sonarr is a tv library management application.
+dependencies:
+  - name: generic-statefulset
+    version: 0.1.0
+    repository: file://../../components/generic-statefulset

@@ -1,7 +1,0 @@
-apiVersion: v2
-name: generic-pod-mgr
-version: 0.1.0
-description: A generic Chart to deploy a DaemonSet, Deployment, or StatefulSet.
-maintainers:
-  - name: Stephan Garland
-    url: https://sgarland.dev

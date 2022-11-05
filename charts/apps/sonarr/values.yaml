@@ -1,29 +1,27 @@
 app:
-  name: foobar
-  env: dev
-  kind: StatefulSet
-  image: docker.io/foo:latest
+  name: sonarr
+  image: linuxserver/sonarr
+  imageTag: latest
   imagePullPolicy: IfNotPresent
+  env: prod
 
   config:
     # Enables envFrom.configMapRef
     envFrom: true
-    # If app.kind: deployment, templates a hostname pod anti-affinity
-    podAntiAffinity: true
+    # Templates a hostname pod anti-affinity
+    podAntiAffinity: false
     # Enables liveness and/or readiness probes
-    probes: true
-    # If app.kind: deployment, sets replica count
-    replicas: 1
+    probes: false
 
   networking:
     ingress:
       enable: true
       # FQDN for the ingress; also used for httpGet probes
-      name:
+      name: "sonarr.goldspinner.page"
     # Ports for the container, if any
     ports:
-      - containerPort: 8080
-        name: mysvc
+      - containerPort: 8989
+        name: sonarr
         protocol: TCP
 
   # Only templated if app.config.probes: true
@@ -40,10 +38,10 @@ app:
   # CPU limits are not included by design, but can be added
   resources:
     requests:
-      cpu:
-      memory:
+      cpu: 500m
+      memory: 1Gi
     limits:
-      memory:
+      memory: 2Gi
 
   persistence:
     # Templates a VolumeClaimTemplate for config, used for StatefulSet
@@ -54,7 +52,7 @@ app:
     nfs:
       enable: true
       # The absolute path to the container's NFS mount, e.g. /foo
-      mountPath:
-      serverIP:
+      mountPath: "/tv"
+      serverIP: "192.168.1.202"
       # The absolute path to the server's NFS share, e.g. /export/foo
-      serverPath:
+      serverPath: "/export/tv"
