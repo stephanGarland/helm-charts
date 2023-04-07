@@ -1,7 +1,0 @@
-apiVersion: v2
-name: generic-configmap
-version: 0.1.0
-description: A generic Chart for a Config Map.
-maintainers:
-  - name: Stephan Garland
-    url: https://sgarland.dev
